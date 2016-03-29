@@ -15,8 +15,7 @@ require('songbird')
 
 const NODE_ENV = process.env.NODE_ENV
 const PORT = process.env.PORT || 8000
-//const ROOT_DIR = path.resolve(argv.dir)
-const ROOT_DIR = process.cwd()
+const ROOT_DIR = path.resolve(argv.dir)
 
 let app = express()
 
@@ -26,12 +25,17 @@ if (NODE_ENV === 'development') {
 
 app.listen(PORT, ()=> console.log(`Listening @ http://127.0.0.1:${PORT}`))
 
-app.get('*', setFileMeta, wrap(sendHeaders), (req, res, next) => {
-  if (res.body) {
-    res.json(res.body)
-    return
-  }
-  fs.createReadStream(req.filePath).pipe(res)
+// app.get('*', setFileMeta, wrap(sendHeaders), (req, res, next) => {
+//   if (res.body) {
+//     res.json(res.body)
+//     return
+//   }
+//   fs.createReadStream(req.filePath).pipe(res)
+// })
+
+app.get('*',sendHeaders,(req,res) => {
+	let filePath = path.resolve(path.join(ROOT_DIR, req.url))
+	fs.createReadStream(filePath).pipe(res)
 })
 
 app.head('*', setFileMeta, wrap(sendHeaders), (req, res, next) => res.end())
@@ -57,9 +61,9 @@ app.post('*', setFileMeta, setDirMeta, wrap(updateContent), (req, res, next) => 
     res.end()
 })
 
-function setFileMeta(req, res, next) {
+function* setFileMeta(req, res, next) {
   console.log("calling setFileMeta()....")
-  req.filePath = path.resolve(path.join(ROOT_DIR, req.url))
+  req.filePath = yield path.resolve(path.join(ROOT_DIR, req.url))
   if (req.filePath.indexOf(ROOT_DIR) !== 0) {
     res.send(400, 'Invalid path')
     return
