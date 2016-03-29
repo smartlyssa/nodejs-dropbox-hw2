@@ -2,16 +2,38 @@
   "name": "dropbox-demo",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node -- --stage 1 --optional strict -- index.js"
+    "start": "nodemon --use_strict -- server.js"
   },
   "dependencies": {
+    "babel-preset-stage-3": "^6.5.0",
     "bluebird-nodeify": "^1.0.0",
+    "co-express": "^1.2.1",
     "express": "^4.0.0",
     "mime-types": "^2.0.10",
     "mkdirp": "^0.5.0",
     "morgan": "^1.5.2",
     "rimraf": "^2.3.2",
-    "songbird": "^1.0.1",
+    "safeguards": "0.0.3",
+    "simple-bodyparser": "0.0.4",
+    "songbird": "^1.0.2",
+    "trycatch": "^1.5.21",
     "yargs": "^3.8.0"
-  }
+  },
+  "description": "This is a basic Dropbox clone to sync files across multiple remote folders.",
+  "version": "1.0.0",
+  "devDependencies": {
+    "babel-cli": "^6.6.5",
+    "babel-core": "^6.7.4",
+    "babel-preset-es2015": "^6.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/smartlyssa/nodejs-dropbox-hw2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/smartlyssa/nodejs-dropbox-hw2/issues"
+  },
+  "homepage": "https://github.com/smartlyssa/nodejs-dropbox-hw2#readme"
 }
